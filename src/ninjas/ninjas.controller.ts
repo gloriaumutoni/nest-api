@@ -7,6 +7,8 @@ import {
   Param,
   Query,
   Body,
+  ValidationPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
 import { NinjasService } from './ninjas.service';
@@ -20,12 +22,12 @@ export class NinjasController {
     return this.ninjasService.getWeapon(weapon);
   }
   @Get(':id')
-  getNinja(@Param('id') id: number, @Body() updateNinjaDto: UpdateNinjaDto) { 
-    return this.ninjasService.getNinja(+id, updateNinjaDto);
+  getNinja(@Param('id',ParseIntPipe) id: number, @Body() updateNinjaDto: UpdateNinjaDto) { 
+    return this.ninjasService.getNinja(id, updateNinjaDto);
   }
 
   @Post()
-  postNinja(@Body() createNinjaDto:CreateNinjaDto) {
+  postNinja(@Body(new ValidationPipe()) createNinjaDto:CreateNinjaDto) {
    return this.ninjasService.postNinjas(createNinjaDto)
   }
 
