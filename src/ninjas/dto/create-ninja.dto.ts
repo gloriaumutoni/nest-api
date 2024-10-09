@@ -1,1 +1,1 @@
-export class CreateNinjaDto { name: string; age: number; }
+export class CreateNinjaDto { }

@@ -1,3 +1,4 @@
+import { CreateNinjaDto } from './dto/create-ninja.dto';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
 import { Injectable } from '@nestjs/common';
 
@@ -13,25 +14,23 @@ export class NinjasService {
     return this.ninjas;
   }
 
-  getNinja(id: number) {
+  getNinja(id: number, updateNinjaDto:UpdateNinjaDto) {
     if (!id) {
-      throw new Error('Id not found');
+return {...updateNinjaDto}
     }
     return this.ninjas.find((el) => el.id === id);
   }
 
-  updateNinjas(id: number, updateNinjaDto: UpdateNinjaDto) {
-    if (!id) {
-      throw new Error('Id not found');
-    }
+  updateNinja(id: number, updateNinjaDto: UpdateNinjaDto) {
     const ninja = {
       ...updateNinjaDto,
+      id:Date.now()
     };
-    this.ninjas.push(ninja);
+    return this.ninjas.push(ninja);
   }
 
-  postNinjas() {
-    return this.ninjas;
+  postNinjas(Body: CreateNinjaDto) {
+    return {...Body, id: Date.now()};
   }
 
   deleteNinjas(id: number) {
