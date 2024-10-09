@@ -9,12 +9,15 @@ import {
   Body,
   ValidationPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UpdateNinjaDto } from './dto/update-ninja.dto';
 import { NinjasService } from './ninjas.service';
 import { CreateNinjaDto } from './dto/create-ninja.dto';
+import { BeltGuard } from 'src/belt/belt.guard';
 
 @Controller('ninjas')
+@UseGuards(BeltGuard)
 export class NinjasController {
   constructor(private readonly ninjasService: NinjasService) {}
   @Get()
@@ -22,8 +25,8 @@ export class NinjasController {
     return this.ninjasService.getWeapon(weapon);
   }
   @Get(':id')
-  getNinja(@Param('id',ParseIntPipe) id: number, @Body() updateNinjaDto: UpdateNinjaDto) { 
-    return this.ninjasService.getNinja(id, updateNinjaDto);
+  getNinja(@Param('id',ParseIntPipe) id: number) { 
+    return this.ninjasService.getNinja(id);
   }
 
   @Post()

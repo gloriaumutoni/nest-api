@@ -14,27 +14,31 @@ export class NinjasService {
     return this.ninjas;
   }
 
-  getNinja(id: number, updateNinjaDto:UpdateNinjaDto) {
+  getNinja(id: number) {
+    const ninja=this.ninjas.filter(ninja=>ninja.id===id)
     if (!id) {
-return {...updateNinjaDto}
+ throw new Error('error occured')
     }
-    return this.ninjas.find((el) => el.id === id);
+    return ninja
   }
 
   updateNinja(id: number, updateNinjaDto: UpdateNinjaDto) {
-    const ninja = {
-      ...updateNinjaDto,
-      id:Date.now()
-    };
-    return this.ninjas.push(ninja);
+this.ninjas=this.ninjas.map(ninja=>{
+  if(ninja.id===id){
+    return {...ninja,...updateNinjaDto}
+  }
+  return ninja
+})
   }
 
   postNinjas(Body: CreateNinjaDto) {
-    return {...Body, id: Date.now()};
+    const ninja={...Body, id: Date.now()};
+    this.ninjas.push(ninja)
+    return ninja
   }
 
   deleteNinjas(id: number) {
-    if (id) return this.ninjas.filter((el) => el.id != id);
-    return this.ninjas;
+    const ninja= this.ninjas.find(ninja=>ninja.id===id)
+    return ninja;
   }
 }
