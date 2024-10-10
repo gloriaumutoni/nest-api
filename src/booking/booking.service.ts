@@ -1,5 +1,6 @@
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { Injectable } from '@nestjs/common';
+import { UpdateBookingDto } from './dto/update-booking.dto';
 
 @Injectable()
 export class BookingService {
@@ -25,9 +26,20 @@ export class BookingService {
     return this.books;
   }
 
-  postBooks(body:CreateBookingDto){
-  this.books.push(body)
-  return body
+  postBooks(body: CreateBookingDto) {
+    this.books.push(body);
+    return body;
   }
 
+  patchBooks(id:number,updateBookingDto:UpdateBookingDto) {
+    this.books.forEach((book) => {
+      if (book.id === id) return { ...book, ...updateBookingDto };
+      return book;
+    });
+  }
+
+  deleteBook(id:number) {
+    const book=this.books.filter(book=>book.id===id)
+    return book
+  }
 }
